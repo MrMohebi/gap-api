@@ -1,23 +1,4 @@
-# ![gap](examples/assets/gap.png) Gap Messenger SDP API PHP
-
-A PHP wrapper for the Gap Messenger SDP API.
-
-## Requirements
-
-- PHP 8 or higher
-- cURL
-- Gap Messenger app (mobile or web)
-
-
-## Installation
-
-```sh
-$ 
-```
-
-### What is Gap?
-According to [Gap Messenger](https://gap.im/):
-
-## License
-
-MIT
+### اومدم یه چیز تمیزی براش بنویسم.
+### انقدر شت بود این ای پی ایش که منصرف شدم :|
+### حتی یه ادرس کال بک رو درست قبول نمیکنه
+### چیزی نگم از طنز محتوا کم نشه
