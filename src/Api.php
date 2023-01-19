@@ -1,19 +1,25 @@
 <?php
 
-namespace Gap\SDP;
+namespace Gap;
+
+use Exception;
+use Gap;
 
 class Api {
 
-  protected $baseURL = 'https://api.gap.im/';
+  protected string $baseURL = 'https://api.gap.im/';
 
-  protected $token;
+  protected string $token;
 
   protected $lastMessage;
 
-  public function __construct($token) {
+    /**
+     * @throws Exception
+     */
+    public function __construct($token) {
     $this->token = $token;
-    if (is_null($this->token)) {
-      throw new \Exception('Required "token" key not supplied');
+    if (is_null($token)) {
+      throw new Exception('Required "token" key not supplied');
     }
   }
 
@@ -21,15 +27,16 @@ class Api {
     return $this->lastMessage;
   }
 
-  /**
-   * Send Action.
-   *
-   * @param int            $chat_id
-   * @param string         $action
-   *
-   * @return Array
-   */
-  public function sendAction($chat_id, $action) {
+    /**
+     * Send Action.
+     *
+     * @param int $chat_id
+     * @param string $action
+     *
+     * @return Array
+     * @throws Exception
+     */
+  public function sendAction(int $chat_id, string $action) {
     $actions = array(
       'typing',
     );
@@ -38,7 +45,7 @@ class Api {
       return $this->sendRequest($action, $params, 'sendAction');
     }
 
-    throw new \Exception('Invalid Action! Accepted value: '.implode(', ', $actions));
+    throw new Exception('Invalid Action! Accepted value: '.implode(', ', $actions));
   }
 
   /**
@@ -139,7 +146,7 @@ class Api {
     $msgType = 'image';
     if (!json_decode($image)) {
       if (!is_file($image)) {
-        throw new \Exception("Image path is invalid");
+        throw new Exception("Image path is invalid");
       }
       list($msgType, $image) = $this->uploadFile('image', $image, $desc);
     }
@@ -175,7 +182,7 @@ class Api {
     $msgType = 'audio';
     if (!json_decode($audio)) {
       if (!is_file($audio)) {
-        throw new \Exception("Audio path is invalid");
+        throw new Exception("Audio path is invalid");
       }
       list($msgType, $audio) = $this->uploadFile('audio', $audio, $desc);
     }
@@ -211,7 +218,7 @@ class Api {
     $msgType = 'video';
     if (!json_decode($video)) {
       if (!is_file($video)) {
-        throw new \Exception("Video path is invalid");
+        throw new Exception("Video path is invalid");
       }
       list($msgType, $video) = $this->uploadFile('video', $video, $desc);
     }
@@ -247,7 +254,7 @@ class Api {
     $msgType = 'file';
     if (!json_decode($file)) {
       if (!is_file($file)) {
-        throw new \Exception("File path is invalid");
+        throw new Exception("File path is invalid");
       }
       list($msgType, $file) = $this->uploadFile('file', $file, $desc);
     }
@@ -283,7 +290,7 @@ class Api {
     $msgType = 'voice';
     if (!json_decode($voice)) {
       if (!is_file($voice)) {
-        throw new \Exception("Voice path is invalid");
+        throw new Exception("Voice path is invalid");
       }
       list($msgType, $voice) = $this->uploadFile('voice', $voice, $desc);
     }
@@ -318,7 +325,7 @@ class Api {
     $params = compact('chat_id', 'message_id', 'data', 'inline_keyboard');
     if ($inline_keyboard) {
       if (!is_array($inline_keyboard)) {
-        throw new \Exception("Inline keyboard is invalid");
+        throw new Exception("Inline keyboard is invalid");
       }
       $params['inline_keyboard'] = json_encode($inline_keyboard);
     }
@@ -392,7 +399,7 @@ class Api {
     $msgType = 'image';
     if (!json_decode($image)) {
       if (!is_file($image)) {
-        throw new \Exception("Image path is invalid");
+        throw new Exception("Image path is invalid");
       }
       list($msgType, $image) = $this->uploadFile('image', $image, $description);
     }
@@ -494,7 +501,7 @@ class Api {
    */
   public function replyKeyboard($keyboard, $once = true, $selective = false) {
     if (!is_array($keyboard)) {
-      throw new \Exception("keyboard must be array");
+      throw new Exception("keyboard must be array");
     }
     $replyKeyboard = compact('keyboard', 'once', 'selective');
     return json_encode($replyKeyboard);
@@ -507,7 +514,7 @@ class Api {
    * @param string $type
    *
    * @return mixed
-   * @throws \Exception
+   * @throws Exception
    */
   public function getGameData($chat_id, $type) {
     $params = compact('chat_id', 'type');
@@ -524,7 +531,7 @@ class Api {
    * @param bool $force
    *
    * @return mixed
-   * @throws \Exception
+   * @throws Exception
    */
   public function setGameData($chat_id, $type, $data, $force = false) {
     $params = compact('chat_id', 'type', 'data', 'force');
@@ -538,7 +545,7 @@ class Api {
    * @param string $key
    *
    * @return mixed
-   * @throws \Exception
+   * @throws Exception
    */
   public function getGameConfig($chat_id, $key = null){
     $params = compact('chat_id', 'key');
@@ -554,14 +561,14 @@ class Api {
    * @param string $value
    *
    * @return mixed
-   * @throws \Exception
+   * @throws Exception
    */
   public function gameEvent($chat_id, $event, $value){
     if (empty($event)) {
-      throw new \Exception('Event required!');
+      throw new Exception('Event required!');
     }
     if (empty($value)) {
-      throw new \Exception('Value required!');
+      throw new Exception('Value required!');
     }
     $params = compact('chat_id', 'event', 'value');
     return $this->sendRequest(null, $params, 'gameEvent');
@@ -574,7 +581,7 @@ class Api {
    * @param string $type
    *
    * @return mixed
-   * @throws \Exception
+   * @throws Exception
    */
   public function leaderBoard($chat_id, $type = 'all') {
     $types = array(
@@ -584,7 +591,7 @@ class Api {
       'day'
     );
     if(!in_array($type, $types)){
-      throw new \Exception('Invalid Type! Accepted value: '.implode(', ', $types));
+      throw new Exception('Invalid Type! Accepted value: '.implode(', ', $types));
     }
     $params = compact('chat_id', 'type');
     $result = $this->sendRequest(null, $params, 'leaderBoard');
@@ -615,9 +622,9 @@ class Api {
     if ($httpcode != 200) {
       if ($curl_result) {
         $curl_result = json_decode($curl_result, true);
-        throw new \Exception($curl_result['error']);
+        throw new Exception($curl_result['error']);
       }
-      throw new \Exception('an error was encountered');
+      throw new Exception('an error was encountered');
     }
 
     return $curl_result;
@@ -639,7 +646,7 @@ class Api {
     curl_close($ch);
     $decoded = json_decode($uploaded, true);
     if ($httpcode != 200 || json_last_error()) {
-      throw new \Exception('upload an error was encountered');
+      throw new Exception('upload an error was encountered');
     }
     $decoded['desc'] = $desc;
     return [$decoded['type'], json_encode($decoded)];
