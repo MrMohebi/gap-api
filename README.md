@@ -8,9 +8,6 @@ A PHP wrapper for the Gap Messenger SDP API.
 - cURL
 - Gap Messenger app (mobile or web)
 
-## Get started
-
-You will find everything you need to know to use this API in the [wiki](https://github.com/GapAfzar/Gap-SDP-API/wiki)
 
 ## Installation
 
