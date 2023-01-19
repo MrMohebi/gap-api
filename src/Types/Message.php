@@ -12,7 +12,7 @@ class Message extends BaseType implements TypeInterface
      *
      * @var array
      */
-    static protected array $requiredParams = ['message_id', 'date', 'type'];
+    static protected array $requiredParams = ['chat_id', 'type'];
 
     /**
      * {@inheritdoc}
@@ -20,9 +20,8 @@ class Message extends BaseType implements TypeInterface
      * @var array
      */
     static protected array $map = [
-        'message_id' => true,
-        'date' => true,
-        'forward_sender_name' => true,
+        'chat_id' => true,
+        'type' => true,
         'text' => true,
     ];
 }
