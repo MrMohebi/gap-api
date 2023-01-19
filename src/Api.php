@@ -1,9 +1,8 @@
 <?php
 
-namespace Gap;
+namespace GapBot;
 
 use Exception;
-use Gap;
 
 class Api {
 
